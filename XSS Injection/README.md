@@ -150,6 +150,11 @@ fclose($fp);
   });
 </script>
 ```
+```code
+This script uses the fetch API to send a request to a specific URL (https://<SESSION>.burpcollaborator.net) using the HTTP POST method. The request is sent in "no-cors" mode, which means that the browser will not check for a valid CORS (Cross-Origin Resource Sharing) header on the server's response. The body of the request is set to the current value of the document.cookie property, which contains all of the cookies for the current page. This means that the cookies for the current page will be sent to the specified URL in the body of the request.
+```
+
+
 
 ### UI redressing
 
